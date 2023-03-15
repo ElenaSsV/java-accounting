@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 
      public class MonthlyReport {
+
          public ArrayList<MonthlyEntry>  monthlyEntries = new ArrayList<>();
 
          public void loadFile(int month, String path) {
@@ -65,7 +66,20 @@ import java.util.HashMap;
              } System.out.println(mostProfitableItemName + " " + maxProfit);
          }
 
+         public void printInfo() {
+             if (monthlyEntries.size() == 0) {
+                 System.out.println("Ошибка! Месячные отчеты не считаны!");
+                 return;
+             }
+             for (int i = 1; i <= 3; i++) {
+                 System.out.println("Месяц " + (i));
+                 System.out.println("Самый прибыльный товар:");
+                 findMostProfitableItem(i);
+                 System.out.println("Самая большая трата за месяц: ");
+                 findMaxExpense(i);
 
+             }
+         }
 
         public String readFileContentsOrNull(String path) {
              try {

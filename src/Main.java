@@ -23,15 +23,13 @@ public class Main {
               System.out.println("Годовой отчет считан");
 
           } else if (userInput == 3) {
-
-               System.out.println("Результат сверки по доходам: " + checker.checkIncome());
-               System.out.println("Результат сверки по расходам: " + checker.checkExpenses());
+              checker.printCheckResult();
 
           } else if (userInput == 4) {
-              checker.printInfoOnMonthlyReports();
+              monthlyReport.printInfo();
 
           } else if (userInput == 5) {
-              checker.printInfoOnYearlyReport(year);
+              yearlyReport.printInfo(year);
 
           } else if (userInput == 0) {
               System.out.println("Выход");

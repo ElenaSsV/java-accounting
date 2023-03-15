@@ -39,11 +39,9 @@ public class YearlyReport {
             System.out.println("Месяц " + month);
             int value = profitPerMonth.get(month);
             System.out.println(value);
-            
         }
-
-
     }
+
     public int findAverageExpense() {
        HashMap<Integer, Integer> expensesPerMonth = new HashMap<>(); // месяц, сумма расхода
         for (YearlyEntry entry : yearlyEntries) {
@@ -77,6 +75,19 @@ public class YearlyReport {
         }
         return averageIncome;
     }
+
+    public void printInfo(int year) {
+        if (yearlyEntries.size() == 0) {
+            System.out.println("Ошибка! Годовой отчет не считан!");
+            return;
+        }
+        System.out.println("Год: " + year);
+        System.out.println("Прибыль по месяцам: ");
+        findProfitPerMonth();
+        System.out.println("Средний расход за год: " + findAverageExpense());
+        System.out.println("Средний доход за год: " + findAverageIncome());
+    }
+
     public String readFileContentsOrNull(String path) {
         try {
             return Files.readString(Path.of(path));

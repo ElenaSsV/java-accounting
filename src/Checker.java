@@ -10,31 +10,24 @@ public class Checker {
         this.yearlyReport = yearlyReport;
     }
 
-    public void printInfoOnMonthlyReports(){
-        for (int i = 1; i <= 3; i++) {
-            System.out.println("Месяц " + (i));
-            System.out.println("Самый прибыльный товар:");
-            monthlyReport.findMostProfitableItem(i);
-            System.out.println("Самая большая трата за месяц: ");
-            monthlyReport.findMaxExpense(i);
-
+    public boolean isMonthlyReportNull() {
+        if (monthlyReport.monthlyEntries.size() == 0) {
+            System.out.println("Месячные отчеты не считаны!");
+          return true;
+        } else {
+            return false;
         }
     }
 
-    public void printInfoOnYearlyReport(int year) {
-        System.out.println("Год: " + year);
-        System.out.println("Прибыль по месяцам: ");
-        yearlyReport.findProfitPerMonth();
-        System.out.println("Средний расход за год: " + yearlyReport.findAverageExpense());
-        System.out.println("Средний доход за год: " + yearlyReport.findAverageIncome());
-    }
-
-
-    public boolean checkIncome() {
-        if (monthlyReport.monthlyEntries.size() == 0  || yearlyReport.yearlyEntries.size() == 0) {
-            System.out.println("Ошибка! Очеты не считаны! Необходимо сначала считать отчеты!");
-            return false;
+    public boolean isYearlyReportNull() {
+        if (yearlyReport.yearlyEntries.size() == 0) {
+            System.out.println("Годовой отчет не считан!");
+            return true;
         } else {
+            return false;
+        }
+    }
+    public boolean checkIncome() {
             HashMap<Integer, Integer> incomeInMonthlyReport = new HashMap<>(); // month, amount
             for (MonthlyEntry entry : monthlyReport.monthlyEntries) {
                 if (entry.isExpense) {
@@ -54,18 +47,13 @@ public class Checker {
                 int incomeByYearlyReport = incomeInYearlyReport.get(month);
                 int incomeByMonthlyReport = incomeInMonthlyReport.getOrDefault(month, 0);
                 if (incomeByYearlyReport != incomeByMonthlyReport) {
-                    System.out.println("В месяце " + month + " сумма не сходится");
+                    System.out.println("В месяце " + month + " сумма доходов не сходится");
                     check = false;
                 }
             } return check;
-        }
     }
 
     public boolean checkExpenses() {
-        if (monthlyReport.monthlyEntries.size() == 0  || yearlyReport.yearlyEntries.size() == 0) {
-            System.out.println("Ошибка! Очеты не считаны! Необходимо сначала считать отчеты!");
-           return false;
-        } else {
             HashMap<Integer, Integer> expensesByMonthlyReport = new HashMap<>(); // month, amount
             for (MonthlyEntry entry : monthlyReport.monthlyEntries) {
                 if (!entry.isExpense) {
@@ -85,11 +73,27 @@ public class Checker {
                 int expenseByYearlyReport = expensesByYearlyReport.get(month);
                 int expenseByMonthlyReport = expensesByMonthlyReport.getOrDefault(month, 0);
                 if (expenseByYearlyReport != expenseByMonthlyReport) {
-                    System.out.println("В месяце " + month + " сумма не сходится");
+                    System.out.println("В месяце " + month + " сумма расходов не сходится");
                     check = false;
                 }
             }
             return check;
-        }
     }
+
+     public void printCheckResult() {
+        boolean isMonthlyReportNull = isMonthlyReportNull();
+        boolean isYearlyReportNull = isYearlyReportNull();
+
+        if (isMonthlyReportNull || isYearlyReportNull) {
+            return;
+        }
+         boolean isExpenseCorrect = checkExpenses();
+         boolean isIncomeCorrect = checkIncome();
+
+        if (isExpenseCorrect && isIncomeCorrect) {
+            System.out.println("В отчетах по суммам доходов и расходов расхождений нет");
+        } else {
+            System.out.println("Ошибка!");
+        }
+     }
 }
